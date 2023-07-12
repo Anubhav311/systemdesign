@@ -22,7 +22,7 @@ const EditorView = ({ value, onChange }: EditorViewProps) => {
 
   return (
     <Editor
-      height="90vh"
+      height="100vh"
       language="prisma"
       theme="light"
       loading="Loading..."

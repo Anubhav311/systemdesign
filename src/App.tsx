@@ -14,7 +14,8 @@ import { ErrorTypes, SchemaError } from "./utils/types";
 import { useMonaco } from "@monaco-editor/react";
 import type { editor } from "monaco-editor";
 import useFetch from "use-http";
-import { getDMMF } from "@prisma/internals";
+import CopyButton from "./components/CopyButton";
+import axios from "axios";
 
 const initial = `
 datasource db {
@@ -59,37 +60,26 @@ function App() {
   const [text, setText] = useState(storedText!);
   const [schemaErrors, setSchemaErrors] = useState<SchemaError[]>([]);
   const [dmmf, setDMMF] = useState<DMMF.Datamodel | null>(null);
-  console.log(text, dmmf);
-  // const { post, response, loading } = useFetch("/api");
   const monaco = useMonaco();
-  // console.log("this is it: ", getDMMF({ datamodel: text }));
-  // const submit = async () => {
-  //   setStoredText(text);
-  //   const resp = await post({ schema: text });
-
-  //   if (response.ok) {
-  //     setDMMF(resp);
-  //     setSchemaErrors([]);
-  //   } else if (resp.type === ErrorTypes.Prisma) setSchemaErrors(resp.errors);
-  //   else console.error(resp);
-  // };
-
-  // const format = async () => {
-  //   const resp = await post("/format", { schema: text });
-  //   if (response.ok) setText(resp.formatted);
-  // };
 
   useEffect(() => {
     const fetchData = async () => {
       if (!text) return;
-      const dmmfV = await getDMMF({ datamodel: text });
-      setDMMF(dmmfV.datamodel);
+      const resp = await axios({
+        method: "POST",
+        url: "http://localhost:5000/getDmmf",
+        data: {
+          schema: text,
+        },
+      });
+      setDMMF(resp.data);
     };
 
     fetchData();
   }, [text]);
 
   // useDebounce(submit, 1000, [text]);
+
   useEffect(() => {
     // Set error squiggles in the editor if we have any
     if (!monaco) return;
@@ -119,18 +109,27 @@ function App() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log("dmmf: ", dmmf);
+
   return (
     <Split className="split" sizes={[25, 75]}>
       {/* <CodeEditor /> */}
-      <EditorView value={text} onChange={(val) => setText(val!)} />
+      <div className="">
+        <EditorView value={text} onChange={(val) => setText(val!)} />
+        <div>
+          <CopyButton input={text} />
+
+          {/* <button type="button" className="button floating" onClick={format}>
+            Format
+          </button> */}
+        </div>
+      </div>
       <div style={{ width: "100%", height: "100vh" }}>
         <FlowView dmmf={dmmf} />
       </div>
 
-      <ReactFlowProvider>
+      {/* <ReactFlowProvider>
         <Graph />
-      </ReactFlowProvider>
+      </ReactFlowProvider> */}
     </Split>
   );
 }

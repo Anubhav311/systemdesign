@@ -131,15 +131,9 @@ const Graph: React.FunctionComponent<IGraphProps> = (props) => {
   const [nodesState, setNodesState] = useState<Node[]>(nodes);
   const [edgesState, setEdgesState] = useState<Edge[]>(edges);
 
-  // const nodeTypes = useMemo(
-  //   () => ({ textUpdater: TextUpdaterNode, serverNode: ServerNode }),
-  //   []
-  // );
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => {
-      console.log("changes: ", changes);
       return setNodesState((nds) => {
-        console.log("node: ", nds);
         return applyNodeChanges(changes, nds);
       });
     },

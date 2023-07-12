@@ -11,8 +11,6 @@ import ReactFlow, {
   OnNodesChange,
 } from "reactflow";
 
-// import DownloadButton from "./DownloadButton";
-
 import EnumNode from "./EnumNode";
 import ModelNode from "./ModelNode";
 import RelationEdge from "./RelationEdge";

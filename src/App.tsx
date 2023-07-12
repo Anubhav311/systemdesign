@@ -78,10 +78,7 @@ function App() {
     fetchData();
   }, [text]);
 
-  // useDebounce(submit, 1000, [text]);
-
   useEffect(() => {
-    // Set error squiggles in the editor if we have any
     if (!monaco) return;
 
     const markers = schemaErrors.map<editor.IMarkerData>((err) => ({
@@ -112,24 +109,15 @@ function App() {
 
   return (
     <Split className="split" sizes={[25, 75]}>
-      {/* <CodeEditor /> */}
       <div className="">
         <EditorView value={text} onChange={(val) => setText(val!)} />
         <div>
           <CopyButton input={text} />
-
-          {/* <button type="button" className="button floating" onClick={format}>
-            Format
-          </button> */}
         </div>
       </div>
       <div style={{ width: "100%", height: "100vh" }}>
         <FlowView dmmf={dmmf} />
       </div>
-
-      {/* <ReactFlowProvider>
-        <Graph />
-      </ReactFlowProvider> */}
     </Split>
   );
 }

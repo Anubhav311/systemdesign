@@ -13,10 +13,10 @@ import ReactFlow, {
 
 // import DownloadButton from "./DownloadButton";
 
-import EnumNode from "~/components/EnumNode";
-import ModelNode from "~/components/ModelNode";
-import RelationEdge from "~/components/RelationEdge";
-import { dmmfToElements } from "~/util/dmmfToElements";
+import EnumNode from "./EnumNode";
+import ModelNode from "./ModelNode";
+import RelationEdge from "./RelationEdge";
+import { dmmfToElements } from "../utils/dmmfToElements";
 import { getLayout } from "~/util/layout";
 import { DMMFToElementsResult } from "~/util/types";
 

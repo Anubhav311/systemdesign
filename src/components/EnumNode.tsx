@@ -4,7 +4,7 @@ import { Handle, Position } from "reactflow";
 
 import styles from "./Node.module.scss";
 
-import { EnumNodeData } from "~/util/types";
+import { EnumNodeData } from "../utils/types";
 
 const MAX_VALUES = 12;
 

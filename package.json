@@ -25,6 +25,8 @@
     "react-split": "^2.0.14",
     "react-use": "^17.4.0",
     "reactflow": "^11.7.4",
+    "sass": "^1.63.6",
+    "sass-loader": "^13.3.2",
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0"
   },

@@ -17,8 +17,8 @@ import EnumNode from "./EnumNode";
 import ModelNode from "./ModelNode";
 import RelationEdge from "./RelationEdge";
 import { dmmfToElements } from "../utils/dmmfToElements";
-import { getLayout } from "~/util/layout";
-import { DMMFToElementsResult } from "~/util/types";
+import { getLayout } from "../utils/layout";
+import { DMMFToElementsResult } from "../utils/types";
 
 import type { DMMF } from "@prisma/generator-helper";
 

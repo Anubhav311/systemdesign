@@ -7,6 +7,8 @@ import CodeEditor from "./components/CodeEditor";
 import { ReactFlowProvider } from "reactflow";
 import EditorView from "./components/EditorView";
 import { useDebounce, useLocalStorage } from "react-use";
+import type { DMMF } from "@prisma/generator-helper";
+import FlowView from "./components/FlowView";
 
 const initial = `
 datasource db {
@@ -49,15 +51,19 @@ function App() {
     initial
   );
   const [text, setText] = useState(storedText!);
+  const [dmmf, setDMMF] = useState<DMMF.Datamodel | null>(null);
 
   return (
     <Split className="split" sizes={[25, 75]}>
       {/* <CodeEditor /> */}
       <EditorView value={text} onChange={(val) => setText(val!)} />
+      <div style={{ width: "100%", height: "100vh" }}>
+        <FlowView dmmf={dmmf} />
+      </div>
 
-      <ReactFlowProvider>
+      {/* <ReactFlowProvider>
         <Graph />
-      </ReactFlowProvider>
+      </ReactFlowProvider> */}
     </Split>
   );
 }

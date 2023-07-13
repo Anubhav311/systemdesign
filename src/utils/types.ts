@@ -7,6 +7,14 @@ export interface SchemaError {
   row: string;
 }
 
+export interface ClientNodeData {
+  type: "client";
+  id: number;
+  data: {
+    label: string;
+  };
+}
+
 export interface EnumNodeData {
   type: "enum";
   name: string;

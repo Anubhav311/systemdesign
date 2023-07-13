@@ -19,10 +19,13 @@ import { getLayout } from "../utils/layout";
 import { DMMFToElementsResult } from "../utils/types";
 
 import type { DMMF } from "@prisma/generator-helper";
+import { jsonToElements } from "../utils/jsonToElements";
+import ClientNode from "./ClientNode";
 
 const nodeTypes = {
   model: ModelNode,
   enum: EnumNode,
+  client: ClientNode,
 };
 
 const edgeTypes = {
@@ -36,12 +39,13 @@ const FlowView = ({ dmmf }: FlowViewProps) => {
   const [layout, setLayout] = useState<ElkNode | null>(null);
   const [nodes, setNodes] = useState<DMMFToElementsResult["nodes"]>([]);
   const [edges, setEdges] = useState<DMMFToElementsResult["edges"]>([]);
+  // const [nodes, edges, loading] = useJsonToGraph(dmmf);
 
   useEffect(() => {
     const { nodes, edges } = dmmf
-      ? dmmfToElements(dmmf, layout)
-      : ({ nodes: [], edges: [] } as DMMFToElementsResult);
-
+      ? jsonToElements(dmmf)
+      : // ? dmmfToElements(dmmf, layout)
+        ({ nodes: [], edges: [] } as DMMFToElementsResult);
     // See if `applyNodeChanges` can work here?
     setNodes(nodes);
     setEdges(edges);
@@ -57,11 +61,12 @@ const FlowView = ({ dmmf }: FlowViewProps) => {
       setNodes((nodes) => applyNodeChanges(changes, nodes as any) as any),
     [setNodes]
   );
-
+  console.log(nodes);
+  console.log(edges);
   return (
     <>
       <ReactFlow
-        nodes={nodes}
+        // nodes={nodes}
         edges={edges}
         edgeTypes={edgeTypes}
         nodeTypes={nodeTypes}
@@ -70,8 +75,8 @@ const FlowView = ({ dmmf }: FlowViewProps) => {
       >
         <Background
           variant={BackgroundVariant.Dots}
-          gap={24}
-          size={2}
+          gap={20}
+          size={4}
           color="currentColor"
           className="text-gray-200"
         />
@@ -129,7 +134,39 @@ const FlowView = ({ dmmf }: FlowViewProps) => {
 };
 
 export interface FlowViewProps {
-  dmmf: DMMF.Datamodel | null;
+  dmmf: string;
+  // dmmf: DMMF.Datamodel | null;
 }
 
 export default FlowView;
+
+function useJsonToGraph(json: string) {
+  const [nodes, setNodes] = useState([]);
+  const [edges, setEdges] = useState([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (json !== undefined) {
+      const parentObject = JSON.parse(json);
+
+      const getProblem = async () => {
+        setLoading(true);
+        const nodes = parentObject.nodes.map((object, idx) => {
+          const node = { ...object, data: { label: object.label } };
+          delete node.label;
+          return node;
+        });
+        setNodes(nodes);
+        const edges = parentObject.connections.map((object, idx) => {
+          const edge = { ...object };
+          return edge;
+        });
+        setEdges(edges);
+        setLoading(false);
+      };
+
+      getProblem();
+    }
+  }, [json]);
+  return { nodes, edges, loading };
+}

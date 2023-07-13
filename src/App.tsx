@@ -50,20 +50,24 @@ enum Role {
 
 const initialJson = JSON.stringify(
   {
-    id: 1,
     nodes: [
       {
         id: 1,
         type: "client",
-        label: "label",
+        label: "Client",
+      },
+      {
+        id: 2,
+        type: "client",
+        label: "Server",
       },
     ],
     connections: [
       {
         id: 1,
         type: "getData",
-        source: 0,
-        target: 0,
+        source: 1,
+        target: 2,
       },
     ],
   },
@@ -75,25 +79,27 @@ function App() {
   const [storedText, setStoredText] = useLocalStorage("json.text", initialJson);
   const [text, setText] = useState(storedText!);
   const [schemaErrors, setSchemaErrors] = useState<SchemaError[]>([]);
-  const [dmmf, setDMMF] = useState<DMMF.Datamodel | null>(null);
+  // const [dmmf, setDMMF] = useState<DMMF.Datamodel | null>(null);
+  const [dmmf, setDMMF] = useState<string>(null);
   const monaco = useMonaco();
 
   useEffect(() => {
     setStoredText(text);
 
-    const fetchData = async () => {
-      if (!text) return;
-      const resp = await axios({
-        method: "POST",
-        url: "http://localhost:5000/getDmmf",
-        data: {
-          schema: text,
-        },
-      });
-      setDMMF(resp.data);
-    };
+    // const fetchData = async () => {
+    //   if (!text) return;
+    //   const resp = await axios({
+    //     method: "POST",
+    //     url: "http://localhost:5000/getDmmf",
+    //     data: {
+    //       schema: text,
+    //     },
+    //   });
+    //   setDMMF(resp.data);
+    // };
+    setDMMF(text);
 
-    fetchData();
+    // fetchData();
   }, [text]);
 
   useEffect(() => {

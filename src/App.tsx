@@ -48,17 +48,25 @@ enum Role {
 }
 `.trim();
 
+const initialJson = JSON.stringify(
+  {
+    p1: "v3",
+    p2: false,
+  },
+  null,
+  2
+);
+
 function App() {
-  const [storedText, setStoredText] = useLocalStorage(
-    "prismaliser.text",
-    initial
-  );
+  const [storedText, setStoredText] = useLocalStorage("json.text", initialJson);
   const [text, setText] = useState(storedText!);
   const [schemaErrors, setSchemaErrors] = useState<SchemaError[]>([]);
   const [dmmf, setDMMF] = useState<DMMF.Datamodel | null>(null);
   const monaco = useMonaco();
 
   useEffect(() => {
+    setStoredText(text);
+
     const fetchData = async () => {
       if (!text) return;
       const resp = await axios({

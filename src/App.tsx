@@ -13,7 +13,7 @@ import type { editor } from "monaco-editor";
 import CopyButton from "./components/CopyButton";
 import axios from "axios";
 
-const initial = `
+const initialPrisma = `
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -50,8 +50,22 @@ enum Role {
 
 const initialJson = JSON.stringify(
   {
-    p1: "v3",
-    p2: false,
+    id: 1,
+    nodes: [
+      {
+        id: 1,
+        type: "client",
+        label: "label",
+      },
+    ],
+    connections: [
+      {
+        id: 1,
+        type: "getData",
+        source: 0,
+        target: 0,
+      },
+    ],
   },
   null,
   2

@@ -18,13 +18,52 @@ const EditorView = ({ value, onChange }: EditorViewProps) => {
             schema: {
               type: "object",
               properties: {
-                p1: {
-                  enum: ["v1", "v2"],
+                nodes: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      id: {
+                        type: "number",
+                        minimum: 0,
+                      },
+                      type: {
+                        enum: ["client", "server"],
+                      },
+                      label: {
+                        type: "string",
+                        minLength: 1,
+                      },
+                    },
+                    required: ["id", "type", "label"],
+                  },
                 },
-                p2: {
-                  $ref: "http://myserver/bar-schema.json", // reference the second schema
+                connections: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      id: {
+                        type: "number",
+                        minimum: 0,
+                      },
+                      type: {
+                        enum: ["sendData", "getData"],
+                      },
+                      source: {
+                        type: "number",
+                        minimum: 0,
+                      },
+                      target: {
+                        type: "number",
+                        minimum: 0,
+                      },
+                    },
+                    required: ["id", "type", "source", "target"],
+                  },
                 },
               },
+              required: ["nodes", "connections"],
             },
           },
           {
@@ -73,14 +112,6 @@ const EditorView = ({ value, onChange }: EditorViewProps) => {
         cursorSmoothCaretAnimation: "on",
         scrollBeyondLastLine: false,
       }}
-      // value={JSON.stringify(
-      //   {
-      //     p1: "v3",
-      //     p2: false,
-      //   },
-      //   null,
-      //   2
-      // )}
       value={value}
       onChange={onChange}
     />

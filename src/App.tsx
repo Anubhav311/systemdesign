@@ -1,24 +1,32 @@
-import { useState, useEffect } from "react";
 import "./App.css";
-import "reactflow/dist/style.css";
-import Split from "react-split";
-import EditorView from "./components/EditorView";
-import { useLocalStorage } from "react-use";
-import type { DMMF } from "@prisma/generator-helper";
-import FlowView from "./components/FlowView";
-import { fromUrlSafeB64 } from "./utils";
-import { ErrorTypes, SchemaError } from "./utils/types";
-import { useMonaco } from "@monaco-editor/react";
-import type { editor } from "monaco-editor";
-import CopyButton from "./components/CopyButton";
-import axios from "axios";
 import Playground from "./components/Playground";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div>
-      <Playground />
-    </div>
+    <Routes>
+      {/* <Route path="/" element={<Home />} /> */}
+      {/* <Route path="/login" element={<AuthPage />} /> */}
+      {/* <Route path="/signup" element={<SignUpPage />} /> */}
+      {/* <Route path="/change-password" element={<ChangePassword />} /> */}
+      <Route path="playground" element={<Playground />} />
+      {/* <Route
+      path="/problems"
+      element={
+        <ProtectedRoute>
+          <ProblemsTable />
+        </ProtectedRoute>
+      }
+    /> */}
+      {/* <Route
+      path="/problems/:problemId"
+      element={
+        <ProtectedRoute>
+          <WorkSpace />
+        </ProtectedRoute>
+      }
+    /> */}
+    </Routes>
   );
 }
 

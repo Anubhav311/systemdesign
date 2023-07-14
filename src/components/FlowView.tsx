@@ -61,8 +61,7 @@ const FlowView = ({ dmmf }: FlowViewProps) => {
       setNodes((nodes) => applyNodeChanges(changes, nodes as any) as any),
     [setNodes]
   );
-  console.log("nodes: ", nodes);
-  console.log("edges: ", edges);
+
   return (
     <>
       <ReactFlow

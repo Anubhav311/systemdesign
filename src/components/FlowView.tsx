@@ -43,9 +43,9 @@ const FlowView = ({ dmmf }: FlowViewProps) => {
 
   useEffect(() => {
     const { nodes, edges } = dmmf
-      ? jsonToElements(dmmf)
-      : // ? dmmfToElements(dmmf, layout)
-        ({ nodes: [], edges: [] } as DMMFToElementsResult);
+      ? // ? jsonToElements(dmmf)
+        dmmfToElements(dmmf, layout)
+      : ({ nodes: [], edges: [] } as DMMFToElementsResult);
     // See if `applyNodeChanges` can work here?
     setNodes(nodes);
     setEdges(edges);
@@ -61,12 +61,12 @@ const FlowView = ({ dmmf }: FlowViewProps) => {
       setNodes((nodes) => applyNodeChanges(changes, nodes as any) as any),
     [setNodes]
   );
-  console.log(nodes);
-  console.log(edges);
+  console.log("nodes: ", nodes);
+  console.log("edges: ", edges);
   return (
     <>
       <ReactFlow
-        // nodes={nodes}
+        nodes={nodes}
         edges={edges}
         edgeTypes={edgeTypes}
         nodeTypes={nodeTypes}
@@ -134,39 +134,39 @@ const FlowView = ({ dmmf }: FlowViewProps) => {
 };
 
 export interface FlowViewProps {
-  dmmf: string;
-  // dmmf: DMMF.Datamodel | null;
+  // dmmf: string;
+  dmmf: DMMF.Datamodel | null;
 }
 
 export default FlowView;
 
-function useJsonToGraph(json: string) {
-  const [nodes, setNodes] = useState([]);
-  const [edges, setEdges] = useState([]);
-  const [loading, setLoading] = useState<boolean>(true);
+// function useJsonToGraph(json: string) {
+//   const [nodes, setNodes] = useState([]);
+//   const [edges, setEdges] = useState([]);
+//   const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    if (json !== undefined) {
-      const parentObject = JSON.parse(json);
+//   useEffect(() => {
+//     if (json !== undefined) {
+//       const parentObject = JSON.parse(json);
 
-      const getProblem = async () => {
-        setLoading(true);
-        const nodes = parentObject.nodes.map((object, idx) => {
-          const node = { ...object, data: { label: object.label } };
-          delete node.label;
-          return node;
-        });
-        setNodes(nodes);
-        const edges = parentObject.connections.map((object, idx) => {
-          const edge = { ...object };
-          return edge;
-        });
-        setEdges(edges);
-        setLoading(false);
-      };
+//       const getProblem = async () => {
+//         setLoading(true);
+//         const nodes = parentObject.nodes.map((object, idx) => {
+//           const node = { ...object, data: { label: object.label } };
+//           delete node.label;
+//           return node;
+//         });
+//         setNodes(nodes);
+//         const edges = parentObject.connections.map((object, idx) => {
+//           const edge = { ...object };
+//           return edge;
+//         });
+//         setEdges(edges);
+//         setLoading(false);
+//       };
 
-      getProblem();
-    }
-  }, [json]);
-  return { nodes, edges, loading };
-}
+//       getProblem();
+//     }
+//   }, [json]);
+//   return { nodes, edges, loading };
+// }

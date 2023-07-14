@@ -76,30 +76,35 @@ const initialJson = JSON.stringify(
 );
 
 function App() {
-  const [storedText, setStoredText] = useLocalStorage("json.text", initialJson);
+  // const [storedText, setStoredText] = useLocalStorage("json.text", initialJson);
+  const [storedText, setStoredText] = useLocalStorage(
+    "prisma.text",
+    initialPrisma
+  );
   const [text, setText] = useState(storedText!);
   const [schemaErrors, setSchemaErrors] = useState<SchemaError[]>([]);
   // const [dmmf, setDMMF] = useState<DMMF.Datamodel | null>(null);
-  const [dmmf, setDMMF] = useState<string>(null);
+  const [dmmf, setDMMF] = useState<DMMF.Datamodel | null>(null);
+  // const [dmmf, setDMMF] = useState<string>(null);
   const monaco = useMonaco();
 
   useEffect(() => {
     setStoredText(text);
 
-    // const fetchData = async () => {
-    //   if (!text) return;
-    //   const resp = await axios({
-    //     method: "POST",
-    //     url: "http://localhost:5000/getDmmf",
-    //     data: {
-    //       schema: text,
-    //     },
-    //   });
-    //   setDMMF(resp.data);
-    // };
-    setDMMF(text);
+    const fetchData = async () => {
+      if (!text) return;
+      const resp = await axios({
+        method: "POST",
+        url: "http://localhost:5000/getDmmf",
+        data: {
+          schema: text,
+        },
+      });
+      setDMMF(resp.data);
+    };
 
-    // fetchData();
+    fetchData();
+    // setDMMF(text);
   }, [text]);
 
   useEffect(() => {

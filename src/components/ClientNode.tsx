@@ -11,6 +11,7 @@ const MAX_VALUES = 12;
 const ClientNode = ({ data }: ClientNodeProps) => {
   const [expanded, setExpanded] = useState(false);
 
+  console.log("client node was called: ", data);
   return (
     <div
       className="font-sans bg-white border-2 border-separate border-black rounded-lg"

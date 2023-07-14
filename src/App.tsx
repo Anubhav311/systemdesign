@@ -13,7 +13,7 @@ import type { editor } from "monaco-editor";
 import CopyButton from "./components/CopyButton";
 import axios from "axios";
 
-const initial = `
+const initialPrisma = `
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -48,17 +48,49 @@ enum Role {
 }
 `.trim();
 
+const initialJson = JSON.stringify(
+  {
+    nodes: [
+      {
+        id: 1,
+        type: "client",
+        label: "Client",
+      },
+      {
+        id: 2,
+        type: "client",
+        label: "Server",
+      },
+    ],
+    connections: [
+      {
+        id: 1,
+        type: "getData",
+        source: 1,
+        target: 2,
+      },
+    ],
+  },
+  null,
+  2
+);
+
 function App() {
+  // const [storedText, setStoredText] = useLocalStorage("json.text", initialJson);
   const [storedText, setStoredText] = useLocalStorage(
-    "prismaliser.text",
-    initial
+    "prisma.text",
+    initialPrisma
   );
   const [text, setText] = useState(storedText!);
   const [schemaErrors, setSchemaErrors] = useState<SchemaError[]>([]);
+  // const [dmmf, setDMMF] = useState<DMMF.Datamodel | null>(null);
   const [dmmf, setDMMF] = useState<DMMF.Datamodel | null>(null);
+  // const [dmmf, setDMMF] = useState<string>(null);
   const monaco = useMonaco();
 
   useEffect(() => {
+    setStoredText(text);
+
     const fetchData = async () => {
       if (!text) return;
       const resp = await axios({
@@ -72,6 +104,7 @@ function App() {
     };
 
     fetchData();
+    // setDMMF(text);
   }, [text]);
 
   useEffect(() => {

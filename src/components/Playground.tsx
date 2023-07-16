@@ -11,6 +11,7 @@ import { useMonaco } from "@monaco-editor/react";
 import type { editor } from "monaco-editor";
 import CopyButton from "./CopyButton";
 import axios from "axios";
+import { Mode } from "../utils/types";
 
 const initialPrisma = `
 datasource db {
@@ -76,15 +77,15 @@ const initialJson = JSON.stringify(
 
 function Playground() {
   // const [storedText, setStoredText] = useLocalStorage("json.text", initialJson);
+  // const [mode, setMode] = useState<Mode>(Mode.JSON);
+  // const [dmmf, setDMMF] = useState<string>(null);
   const [storedText, setStoredText] = useLocalStorage(
     "prisma.text",
     initialPrisma
   );
   const [text, setText] = useState(storedText!);
   const [schemaErrors, setSchemaErrors] = useState<SchemaError[]>([]);
-  // const [dmmf, setDMMF] = useState<DMMF.Datamodel | null>(null);
   const [dmmf, setDMMF] = useState<DMMF.Datamodel | null>(null);
-  // const [dmmf, setDMMF] = useState<string>(null);
   const monaco = useMonaco();
 
   useEffect(() => {
@@ -138,7 +139,15 @@ function Playground() {
   return (
     <Split className="split" sizes={[25, 75]}>
       <div className="">
-        <EditorView value={text} onChange={(val) => setText(val!)} />
+        {/* <div className="w-full flex justify-around">
+          <button onClick={() => setMode(Mode.JSON)}>JSON</button>
+          <button onClick={() => setMode(Mode.PRISMA)}>PRISM</button>
+        </div> */}
+        <EditorView
+          //   mode={mode}
+          value={text}
+          onChange={(val) => setText(val!)}
+        />
         <div>
           <CopyButton input={text} />
         </div>

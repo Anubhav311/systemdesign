@@ -1,86 +1,86 @@
 import React, { useEffect } from "react";
 import Editor, { useMonaco } from "@monaco-editor/react";
-
 import * as prismaLanguage from "../utils/languageConfig";
+import { Mode } from "../utils/types";
 
 const EditorView = ({ value, onChange }: EditorViewProps) => {
   const monaco = useMonaco();
 
   // for monaco configuration
-  // useEffect(() => {
-  //   if (monaco) {
-  //     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-  //       validate: true,
-  //       schemas: [
-  //         {
-  //           uri: "http://myserver/foo-schema.json", // id of the first schema
-  //           fileMatch: ["*"], // associate with our model
-  //           schema: {
-  //             type: "object",
-  //             properties: {
-  //               nodes: {
-  //                 type: "array",
-  //                 items: {
-  //                   type: "object",
-  //                   properties: {
-  //                     id: {
-  //                       type: "number",
-  //                       minimum: 0,
-  //                     },
-  //                     type: {
-  //                       enum: ["client", "server"],
-  //                     },
-  //                     label: {
-  //                       type: "string",
-  //                       minLength: 1,
-  //                     },
-  //                   },
-  //                   required: ["id", "type", "label"],
-  //                 },
-  //               },
-  //               connections: {
-  //                 type: "array",
-  //                 items: {
-  //                   type: "object",
-  //                   properties: {
-  //                     id: {
-  //                       type: "number",
-  //                       minimum: 0,
-  //                     },
-  //                     type: {
-  //                       enum: ["sendData", "getData"],
-  //                     },
-  //                     source: {
-  //                       type: "number",
-  //                       minimum: 0,
-  //                     },
-  //                     target: {
-  //                       type: "number",
-  //                       minimum: 0,
-  //                     },
-  //                   },
-  //                   required: ["id", "type", "source", "target"],
-  //                 },
-  //               },
-  //             },
-  //             required: ["nodes", "connections"],
-  //           },
-  //         },
-  //         {
-  //           uri: "http://myserver/bar-schema.json", // id of the first schema
-  //           schema: {
-  //             type: "object",
-  //             properties: {
-  //               q1: {
-  //                 enum: ["x1", "x2"],
-  //               },
-  //             },
-  //           },
-  //         },
-  //       ],
-  //     });
-  //   }
-  // }, [monaco]);
+  useEffect(() => {
+    if (monaco) {
+      monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+        validate: true,
+        schemas: [
+          {
+            uri: "http://myserver/foo-schema.json", // id of the first schema
+            fileMatch: ["*"], // associate with our model
+            schema: {
+              type: "object",
+              properties: {
+                nodes: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      id: {
+                        type: "number",
+                        minimum: 0,
+                      },
+                      type: {
+                        enum: ["client", "server"],
+                      },
+                      label: {
+                        type: "string",
+                        minLength: 1,
+                      },
+                    },
+                    required: ["id", "type", "label"],
+                  },
+                },
+                connections: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      id: {
+                        type: "number",
+                        minimum: 0,
+                      },
+                      type: {
+                        enum: ["sendData", "getData"],
+                      },
+                      source: {
+                        type: "number",
+                        minimum: 0,
+                      },
+                      target: {
+                        type: "number",
+                        minimum: 0,
+                      },
+                    },
+                    required: ["id", "type", "source", "target"],
+                  },
+                },
+              },
+              required: ["nodes", "connections"],
+            },
+          },
+          {
+            uri: "http://myserver/bar-schema.json", // id of the first schema
+            schema: {
+              type: "object",
+              properties: {
+                q1: {
+                  enum: ["x1", "x2"],
+                },
+              },
+            },
+          },
+        ],
+      });
+    }
+  }, [monaco]);
 
   // for prisma configuration
   useEffect(() => {
@@ -111,6 +111,9 @@ const EditorView = ({ value, onChange }: EditorViewProps) => {
         smoothScrolling: true,
         cursorSmoothCaretAnimation: "on",
         scrollBeyondLastLine: false,
+        lineDecorationsWidth: 0,
+        lineNumbersMinChars: 4,
+        lineNumbers: "off",
       }}
       value={value}
       onChange={onChange}
@@ -121,6 +124,7 @@ const EditorView = ({ value, onChange }: EditorViewProps) => {
 export interface EditorViewProps {
   value: string;
   onChange: (text?: string) => void;
+  // mode: Mode
 }
 
 export default EditorView;

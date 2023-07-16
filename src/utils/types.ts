@@ -59,3 +59,8 @@ export interface DMMFToElementsResult {
   nodes: Array<Node<EnumNodeData> | Node<ModelNodeData>>;
   edges: Edge[];
 }
+
+export enum Mode {
+  JSON = "JSON",
+  PRISMA = "PRISMA",
+}

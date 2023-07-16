@@ -6,7 +6,6 @@ const nodee = {
     documentation: undefined,
     name: "Role",
     tyep: "enum",
-    values: [],
   },
   height: 128,
   id: "Role",

@@ -53,21 +53,20 @@ const initialNodes: Node[] = [
 // you could also use useMemo inside the component
 const nodeTypes = { textUpdater: TextUpdaterNode };
 export interface FlowViewProps {
-  dmmf: string;
+  json: string;
 }
 
-function Flow({ dmmf }: FlowViewProps) {
+function Flow({ json }: FlowViewProps) {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
 
   useEffect(() => {
-    const nodes = jsonToElements(dmmf);
+    const nodes = jsonToElements(json);
     //   : ({ nodes: [], edges: [] } as DMMFToElementsResult);
     // See if `applyNodeChanges` can work here?
-    console.log(nodes);
     setNodes(nodes);
     // setEdges(edges);
-  }, []);
+  }, [json]);
 
   const onNodesChange = useCallback(
     (changes: NodeChange[]) =>

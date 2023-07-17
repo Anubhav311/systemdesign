@@ -52,60 +52,67 @@ enum Role {
 const initialJson = JSON.stringify(
   {
     nodes: [
+      //   {
+      //     id: 1,
+      //     type: "client",
+      //     label: "Client",
+      //   },
+      //   {
+      //     id: 2,
+      //     type: "client",
+      //     label: "Server",
+      //   },
       {
-        id: 1,
-        type: "client",
-        label: "Client",
-      },
-      {
-        id: 2,
-        type: "client",
-        label: "Server",
-      },
-    ],
-    connections: [
-      {
-        id: 1,
-        type: "getData",
-        source: 1,
-        target: 2,
+        id: "1",
+        type: "textUpdater",
+        position: { x: 0, y: 0 },
+        data: { value: 123, label: "node" },
       },
     ],
+    // connections: [
+    //   {
+    //     id: 1,
+    //     type: "getData",
+    //     source: 1,
+    //     target: 2,
+    //   },
+    // ],
   },
   null,
   2
 );
 
 function Playground() {
-  // const [storedText, setStoredText] = useLocalStorage("json.text", initialJson);
+  const [storedText, setStoredText] = useLocalStorage("json.text", initialJson);
   // const [mode, setMode] = useState<Mode>(Mode.JSON);
   // const [dmmf, setDMMF] = useState<string>(null);
-  const [storedText, setStoredText] = useLocalStorage(
-    "prisma.text",
-    initialPrisma
-  );
+  //   const [storedText, setStoredText] = useLocalStorage(
+  //     "prisma.text",
+  //     initialPrisma
+  //   );
   const [text, setText] = useState(storedText!);
   const [schemaErrors, setSchemaErrors] = useState<SchemaError[]>([]);
-  const [dmmf, setDMMF] = useState<DMMF.Datamodel | null>(null);
+  const [dmmf, setDMMF] = useState<string>("");
+  //   const [dmmf, setDMMF] = useState<DMMF.Datamodel | null>(null);
   const monaco = useMonaco();
 
   useEffect(() => {
     setStoredText(text);
 
-    const fetchData = async () => {
-      if (!text) return;
-      const resp = await axios({
-        method: "POST",
-        url: "http://localhost:5000/getDmmf",
-        data: {
-          schema: text,
-        },
-      });
-      setDMMF(resp.data);
-    };
+    // const fetchData = async () => {
+    //   if (!text) return;
+    //   const resp = await axios({
+    //     method: "POST",
+    //     url: "http://localhost:5000/getDmmf",
+    //     data: {
+    //       schema: text,
+    //     },
+    //   });
+    //   setDMMF(resp.data);
+    // };
 
-    fetchData();
-    // setDMMF(text);
+    // fetchData();
+    setDMMF(text);
   }, [text]);
 
   useEffect(() => {
@@ -155,7 +162,7 @@ function Playground() {
       </div>
       <div style={{ width: "100%", height: "100vh" }}>
         {/* <FlowView dmmf={dmmf} /> */}
-        <Flow dmmf={dmmf} />
+        <Flow json={dmmf} />
       </div>
     </Split>
   );

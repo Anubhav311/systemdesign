@@ -24,14 +24,15 @@ const edgee = {
 };
 const initialNodes: Node[] = [
   {
-    id: "node-1",
+    id: "1",
     type: "textUpdater",
     position: { x: 0, y: 0 },
-    data: { value: 123 },
+    data: { value: 123, label: "node" },
   },
 ];
-export const jsonToElements = (json: string): Node[] => {
-  // if (json === undefined) return;
+export const jsonToElements = (json: string | null): Node[] => {
+  if (json === null || json.length < 1) return [];
+  console.log("dmmf: ", json);
   const parentObject = JSON.parse(json);
 
   //   const nodes = parentObject.nodes.map((object, idx) => {
@@ -46,18 +47,18 @@ export const jsonToElements = (json: string): Node[] => {
   //   });
 
   // const x = {
-  //   nodes: [
-  //     ...parentObject.nodes.map((object, idx) => {
-  //       const node = {
-  //         ...object,
-  //         data: { label: object.label },
-  //         position: { x: 300, y: 50 },
-  //       };
-  //       delete node.label;
-  //       return { ...node };
-  //       // return { ...nodee };
-  //     }),
-  //   ],
+  // const nodes = [
+  //   ...parentObject.nodes.map((object: { label: any }, idx: number) => {
+  //     const node = {
+  //       ...object,
+  //       data: { label: object.label },
+  //       position: { x: 300, y: 50 },
+  //     };
+  //     delete node.label;
+  //     return { ...node };
+  //     // return { ...nodee };
+  //   }),
+  // ];
   //   edges: [
   //     ...parentObject.connections.map((object, idx) => {
   //       const edge = { ...object };
@@ -66,5 +67,6 @@ export const jsonToElements = (json: string): Node[] => {
   //     }),
   //   ],
   // };
-  return [...initialNodes];
+  return [...parentObject.nodes];
+  // return nodes;
 };

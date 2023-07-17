@@ -12,6 +12,7 @@ import type { editor } from "monaco-editor";
 import CopyButton from "./CopyButton";
 import axios from "axios";
 import { Mode } from "../utils/types";
+import Flow from "./jsonFlowView";
 
 const initialPrisma = `
 datasource db {
@@ -153,7 +154,8 @@ function Playground() {
         </div>
       </div>
       <div style={{ width: "100%", height: "100vh" }}>
-        <FlowView dmmf={dmmf} />
+        {/* <FlowView dmmf={dmmf} /> */}
+        <Flow dmmf={dmmf} />
       </div>
     </Split>
   );

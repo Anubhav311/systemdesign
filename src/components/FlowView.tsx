@@ -65,15 +65,8 @@ const FlowView = ({ dmmf }: FlowViewProps) => {
   return (
     <>
       <ReactFlow
-        nodes={{
-          id: "eUser-role-Role",
-          source: "Role",
-          target: "User",
-          type: "smoothstep",
-          sourceHandle: "Role",
-          targetHandle: "User-role",
-        }}
-        // edges={edges}
+        nodes={nodes}
+        edges={edges}
         edgeTypes={edgeTypes}
         nodeTypes={nodeTypes}
         minZoom={0.05}

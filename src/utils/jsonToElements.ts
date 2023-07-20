@@ -6,7 +6,6 @@ const nodee = {
     documentation: undefined,
     name: "Role",
     tyep: "enum",
-    values: [],
   },
   height: 128,
   id: "Role",
@@ -23,9 +22,17 @@ const edgee = {
   targetHandle: "User-role",
   type: "smoothstep",
 };
-
-export const jsonToElements = (json: string) => {
-  if (json === undefined) return;
+const initialNodes: Node[] = [
+  {
+    id: "1",
+    type: "textUpdater",
+    position: { x: 0, y: 0 },
+    data: { value: 123, label: "node" },
+  },
+];
+export const jsonToElements = (json: string | null): Node[] => {
+  if (json === null || json.length < 1) return [];
+  console.log("dmmf: ", json);
   const parentObject = JSON.parse(json);
 
   //   const nodes = parentObject.nodes.map((object, idx) => {
@@ -39,32 +46,27 @@ export const jsonToElements = (json: string) => {
   //     return edge;
   //   });
 
-  const x = {
-    nodes: [
-      ...parentObject.nodes.map((object, idx) => {
-        const node = {
-          ...object,
-          data: { label: object.label },
-          position: { x: 300, y: 50 },
-        };
-        delete node.label;
-        return { ...node };
-        // return { ...nodee };
-      }),
-      //   ...data.enums.map((enumData) => generateEnumNode(enumData, layout)),
-      //   ...[...data.models, ...implicitManyToMany].map((model) =>
-      //     generateModelNode(model, relations, layout)
-      //   ),
-    ],
-    edges: [
-      ...parentObject.connections.map((object, idx) => {
-        const edge = { ...object };
-        return { ...edge };
-        // return { ...edgee };
-      }),
-      //   ...enumFields.map(generateEnumEdge),
-      //   ...Object.entries(relations).flatMap(generateRelationEdge),
-    ],
-  };
-  return x;
+  // const x = {
+  // const nodes = [
+  //   ...parentObject.nodes.map((object: { label: any }, idx: number) => {
+  //     const node = {
+  //       ...object,
+  //       data: { label: object.label },
+  //       position: { x: 300, y: 50 },
+  //     };
+  //     delete node.label;
+  //     return { ...node };
+  //     // return { ...nodee };
+  //   }),
+  // ];
+  //   edges: [
+  //     ...parentObject.connections.map((object, idx) => {
+  //       const edge = { ...object };
+  //       return { ...edge };
+  //       // return { ...edgee };
+  //     }),
+  //   ],
+  // };
+  return [...parentObject.nodes];
+  // return nodes;
 };
